@@ -3,7 +3,7 @@
 **Veylora** is a personalized, offline-first web app that helps you understand and reduce the fuel your vehicle burns. It turns your own vehicle profile and trip data into an explainable calculus-based consumption model, then recommends a speed that costs you less fuel and less money.
 
 - **Live app:** https://veylora.<account-subdomain>.workers.dev/ (Cloudflare Workers)
-- **Source:** https://github.com/vvsrinath/Veylora
+- **Source:** https://github.com/vvsrinath/-Veylora-Kalasalingam-University-1St-Sem-Maths-Project-1-with-Research-
 - **No sign-up, no server, no tracking.** Everything is stored on your device.
 
 ---
@@ -26,6 +26,7 @@
 - [Configuration reference](#configuration-reference)
 - [Accuracy & disclaimer](#accuracy--disclaimer)
 - [Known limitations](#known-limitations)
+- [Developer](#developer)
 - [License](#license)
 
 ---
@@ -421,6 +422,26 @@ Veylora is an **educational estimation tool**, not a guarantee of savings.
 - Live context (weather/AQI/roads/elevation) needs a network connection and depends on third-party free APIs and their rate limits.
 - GPS accuracy on a phone is reported and factored into data quality but cannot be improved by the app.
 - The main JS bundle is a single chunk (~800 kB, ~233 kB gzipped); route-level code-splitting is a future improvement.
+
+---
+
+## Developer
+
+<img src="public/developer.png" alt="Srinath V.V, creator and developer of Veylora" width="200" align="right" />
+
+Veylora is developed by **Srinath V.V**, a student and technology enthusiast interested in automobile engineering, mathematics, software development, data analysis, and optimization.
+
+The developer’s goal is to combine mathematical concepts with practical automobile applications. The project focuses on using differentiation and optimization techniques to understand fuel consumption and identify efficient driving speeds.
+
+The developer is also exploring future improvements such as personalized vehicle modelling, environmental and road-condition analysis, driving-behaviour analysis, data visualization, and offline-first web application development.
+
+Through Veylora, the developer aims to transform a classroom mathematical concept into a practical research-oriented software project that connects **calculus, automobile engineering, and modern technology**.
+
+**Contact**
+
+- **Email:** [vvsrinath0@gmail.com](mailto:vvsrinath0@gmail.com)
+- **GitHub:** [@vvsrinath](https://github.com/vvsrinath)
+- **LinkedIn:** [Srinath V. V.](https://www.linkedin.com/in/srinath-v-a26b372b7)
 
 ---
 

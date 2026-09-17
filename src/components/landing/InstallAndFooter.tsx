@@ -59,6 +59,20 @@ export function InstallAndFooter() {
                 three-wheelers. It turns your own vehicle and trip data into practical, understandable insights —
                 using a simplified calculus-based model that improves as your data grows.
               </p>
+              <p className="mt-4 text-xs text-muted">
+                Created &amp; developed by <span className="font-medium text-soft">Srinath V.V</span>.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-4">
+                <a href="mailto:vvsrinath0@gmail.com" className="text-sm text-soft/90 hover:text-accent">
+                  Email
+                </a>
+                <a href="https://github.com/vvsrinath" target="_blank" rel="noreferrer" className="text-sm text-soft/90 hover:text-accent">
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/srinath-v-a26b372b7" target="_blank" rel="noreferrer" className="text-sm text-soft/90 hover:text-accent">
+                  LinkedIn
+                </a>
+              </div>
             </div>
 
             <div>
