@@ -6,6 +6,17 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
 
+const INSTALLED_KEY = 'veylora.installed';
+
+function readInstalledFlag(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return localStorage.getItem(INSTALLED_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
 export interface PwaStatus {
   swStatus: 'unsupported' | 'registering' | 'ready' | 'failed';
   canInstall: boolean;
@@ -19,7 +30,7 @@ export interface PwaStatus {
 export function usePwa(): PwaStatus {
   const [swStatus, setSwStatus] = useState<PwaStatus['swStatus']>('registering');
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
-  const [appInstalled, setAppInstalled] = useState(false);
+  const [appInstalled, setAppInstalled] = useState(readInstalledFlag);
   const [storagePersistent, setStoragePersistent] = useState<boolean | null>(null);
   const [storageUsedMb, setStorageUsedMb] = useState<number | null>(null);
   const [storageTotalMb, setStorageTotalMb] = useState<number | null>(null);
@@ -62,6 +73,9 @@ export function usePwa(): PwaStatus {
       setInstallEvent(e as BeforeInstallPromptEvent);
     };
     const onInstalled = () => {
+      try {
+        localStorage.setItem(INSTALLED_KEY, '1');
+      } catch { /* storage unavailable */ }
       setAppInstalled(true);
       setInstallEvent(null);
     };
@@ -78,7 +92,12 @@ export function usePwa(): PwaStatus {
     if (!installEvent) return false;
     await installEvent.prompt();
     const choice = await installEvent.userChoice;
-    if (choice.outcome === 'accepted') setAppInstalled(true);
+    if (choice.outcome === 'accepted') {
+      try {
+        localStorage.setItem(INSTALLED_KEY, '1');
+      } catch { /* storage unavailable */ }
+      setAppInstalled(true);
+    }
     setInstallEvent(null);
     return choice.outcome === 'accepted';
   }, [installEvent]);

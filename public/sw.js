@@ -3,7 +3,7 @@
    every URL against the registration scope, so it works at /, /veylora/, etc.
    Bump CACHE_VERSION when you ship new builds. */
 
-const CACHE_VERSION = 'veylora-shell-v1';
+const CACHE_VERSION = 'veylora-shell-v2';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
