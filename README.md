@@ -1,10 +1,8 @@
 # Veylora — Fuel Consumption Optimizer
 
-[![Deploy to GitHub Pages](https://github.com/vvsrinath/Veylora/actions/workflows/deploy.yml/badge.svg)](https://github.com/vvsrinath/Veylora/actions/workflows/deploy.yml)
-
 **Veylora** is a personalized, offline-first web app that helps you understand and reduce the fuel your vehicle burns. It turns your own vehicle profile and trip data into an explainable calculus-based consumption model, then recommends a speed that costs you less fuel and less money.
 
-- **Live app:** https://vvsrinath.github.io/Veylora/
+- **Live app:** https://<your-project>.pages.dev/ (Cloudflare Pages)
 - **Source:** https://github.com/vvsrinath/Veylora
 - **No sign-up, no server, no tracking.** Everything is stored on your device.
 
@@ -168,7 +166,7 @@ v* = −(−0.348) / (2 × 0.003) = 58 km/h
 | State | React Context + `localStorage` |
 | PWA | Web App Manifest + Service Worker (hand-written) |
 | Research engine | Python 3 + SymPy |
-| Hosting/CI | GitHub Pages + GitHub Actions |
+| Hosting | Cloudflare Pages |
 
 No backend server, database, or auth provider is required.
 
@@ -190,7 +188,8 @@ No backend server, database, or auth provider is required.
 │  ├─ icon-512.png
 │  ├─ icon-512-maskable.png
 │  ├─ apple-touch-icon.png
-│  └─ _redirects               # SPA fallback for Netlify-style hosts
+│  ├─ _redirects               # SPA fallback (Cloudflare Pages)
+│  └─ _headers                 # Cache-Control for sw.js / index / manifest
 ├─ src/
 │  ├─ App.tsx                  # Router + route table + InstallPrompt
 │  ├─ index.tsx                # entry: registers SW, mounts app
@@ -207,7 +206,6 @@ No backend server, database, or auth provider is required.
 │  │                           # storage, costEmissionMaintenance, pwa, format, id
 │  ├─ data/                    # content copy, seed demo data, countries
 │  └─ types/                   # vehicle.ts, trip.ts
-├─ .github/workflows/deploy.yml
 ├─ index.html
 ├─ tailwind.config.js
 ├─ vite.config.ts
@@ -242,15 +240,21 @@ npm run build      # outputs to dist/
 npm run preview    # serve the production build locally
 ```
 
-### Deploy to a sub-path
+### Build for deployment
 
-The build reads the base path from `VITE_BASE_PATH`:
+Cloudflare Pages serves the app from the domain root, so the default build works as-is:
 
 ```bash
-VITE_BASE_PATH=/Veylora/ npm run build
+npm run build
 ```
 
-This makes asset, manifest, and service-worker URLs resolve correctly under a GitHub Pages project site.
+For a sub-path host, set the base path explicitly:
+
+```bash
+VITE_BASE_PATH=/<repo>/ npm run build
+```
+
+This makes asset, manifest, and service-worker URLs resolve correctly under that sub-path.
 
 ---
 
@@ -322,24 +326,25 @@ Updating: when you ship a new build, bump `CACHE_VERSION` in `public/sw.js` so c
 
 ## Deployment
 
-The app is deployed to **GitHub Pages** as a project site.
+The app is deployed to **Cloudflare Pages** with Git integration on this repository.
 
-- **URL:** https://vvsrinath.github.io/Veylora/
-- **Workflow:** `.github/workflows/deploy.yml` runs on every push to `main` (and via manual dispatch):
-  1. Install deps (`npm install`) on Node 22.
-  2. Compute `VITE_BASE_PATH` from the repo name (root for `<user>.github.io`, otherwise `/<repo>/`).
-  3. `npm run build` and copy `index.html` → `404.html` for SPA deep links.
-  4. Upload and deploy with `actions/deploy-pages`.
+- **URL:** https://<your-project>.pages.dev/
+- **Triggers:** every push to `main` (pull requests get preview deployments).
+- **Build command:** `npm run build`
+- **Build output directory:** `dist`
 
-Pages is configured to build **from GitHub Actions** (not from a branch).
+Configuration notes:
 
-To host elsewhere:
+- **SPA routing** — `public/_redirects` (`/* /index.html 200`) makes deep links like `/trip/history` fall back to the app shell.
+- **Service-worker freshness** — `public/_headers` sets `Cache-Control: no-cache` on `sw.js`, `index.html`, and `manifest.webmanifest`, while Vite's hashed assets stay immutable.
+- **Base path** — Cloudflare serves from the root, so no `VITE_BASE_PATH` is needed. Set it only for a sub-path host.
+
+Other hosts:
 
 - **Vercel** — `vercel.json` rewrites all routes to `/index.html` (SPA).
 - **Netlify** — `public/_redirects` provides the same fallback.
-- **Sub-path hosts** — set `VITE_BASE_PATH` at build time.
 
-To change the URL, rename the repository or attach a custom domain; the base path follows automatically.
+Custom domains are configured in the Cloudflare Pages project; the build is host-agnostic because asset and manifest URLs are root-relative.
 
 ---
 
@@ -374,14 +379,14 @@ The Python package mirrors the TypeScript utilities in `src/utils/`; the TypeScr
 
 | File | Purpose |
 | --- | --- |
-| `vite.config.ts` | Vite base path (via `VITE_BASE_PATH`) and React plugin. |
+| `vite.config.ts` | Vite base path (root by default; `VITE_BASE_PATH` override) and React plugin. |
 | `tailwind.config.js` | Theme colors (`navy`, `accent`, `soft`, `lighttext`, …) and fonts. |
 | `tsconfig.json` | Strict TypeScript, `noUnusedLocals`, bundler resolution. |
 | `postcss.config.js` | Tailwind + Autoprefixer. |
 | `public/manifest.webmanifest` | PWA identity, icons, display mode. |
 | `public/sw.js` | Offline caching strategy + cache version. |
-| `.github/workflows/deploy.yml` | GitHub Pages CI/CD. |
-| `vercel.json`, `public/_redirects` | SPA fallbacks for alternative hosts. |
+| `public/_redirects`, `public/_headers` | SPA fallback and cache headers for Cloudflare Pages. |
+| `vercel.json` | SPA rewrites for the Vercel alternative host. |
 
 ### Theme tokens
 
