@@ -11,6 +11,7 @@ const LINKS = [
 { label: 'How It Works', href: '#how-it-works' },
 { label: 'Developer', href: '#developer' },
 { label: 'About', href: '#about' },
+{ label: 'Research', href: '#research' },
 { label: 'Download', href: '#download' }];
 
 

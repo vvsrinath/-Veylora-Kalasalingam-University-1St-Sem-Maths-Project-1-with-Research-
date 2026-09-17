@@ -6,6 +6,7 @@ import { HowItWorks } from '../components/landing/HowItWorks';
 import { FeatureShowcase } from '../components/landing/FeatureShowcase';
 import { DeveloperSection } from '../components/landing/DeveloperSection';
 import { AboutSection } from '../components/landing/AboutSection';
+import { ResearchSection } from '../components/landing/ResearchSection';
 import { InstallAndFooter } from '../components/landing/InstallAndFooter';
 
 export function Landing() {
@@ -18,6 +19,7 @@ export function Landing() {
       <FeatureShowcase />
       <DeveloperSection />
       <AboutSection />
+      <ResearchSection />
       <InstallAndFooter />
     </div>);
 
