@@ -86,6 +86,59 @@ const FUTURE_WORK = [
 'Machine-learning-based fuel prediction'];
 
 
+const MODULES = [
+{
+  title: 'Module 1 — Data Input',
+  items: ['Enter speed values', 'Enter fuel-consumption values', 'Validate numerical inputs']
+},
+{
+  title: 'Module 2 — Mathematical Modelling',
+  items: ['Fit a function to the data', 'Display the equation', 'Calculate model parameters']
+},
+{
+  title: 'Module 3 — Differentiation',
+  items: ['First derivative', 'Find critical points', 'Second derivative', 'Classify max / min']
+},
+{
+  title: 'Module 4 — Visualization',
+  items: ['Plot fuel consumption', 'Plot derivative functions', 'Mark optimal speed']
+},
+{
+  title: 'Module 5 — Comparison',
+  items: ['Vehicle types', 'Fuel types', 'City vs highway', 'Loads and gradients']
+},
+{
+  title: 'Module 6 — Future Optimization',
+  items: ['Fuel-cost optimization', 'Emission estimation', 'Multivariable optimization']
+}];
+
+
+const LIMITATIONS = [
+'Simplified mathematical approximation',
+'May not represent every automobile',
+'Does not automatically measure fuel usage',
+'Traffic and road gradient can change results',
+'Acceleration and braking are not in the basic equation',
+'Does not replace legal speed limits or safe driving',
+'Sample data must be replaced with real vehicle data'];
+
+
+const OUTCOMES = [
+'Produce a mathematical fuel-consumption function',
+'Display the function graph',
+'Calculate the first derivative',
+'Identify the critical speed',
+'Calculate the second derivative',
+'Classify the point as maximum or minimum',
+'Display the predicted optimal speed',
+'Show minimum modelled consumption'];
+
+
+const CONCLUSION =
+'Veylora applies mathematical differentiation to an automobile engineering problem. By representing fuel consumption as a function of speed, first derivatives identify critical points and second derivatives classify them as maximum or minimum. The project starts with a simple speed-based model and can expand to include vehicle characteristics, fuel type, road conditions, environmental factors, maintenance, and driving behaviour — connecting calculus, automobile engineering, data analysis, Python programming, and optimization in one research-oriented project.';
+
+
+
 export function ResearchSection() {
   return (
     <section id="research" className="bg-navy py-20 md:py-28">
@@ -294,6 +347,64 @@ export function ResearchSection() {
             </div>
           </FadeIn>
         </div>
+
+        <div className="mt-6">
+          <FadeIn>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">Project modules</h3>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {MODULES.map((module) =>
+              <div key={module.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <h4 className="text-sm font-semibold text-soft">{module.title}</h4>
+                  <ul className="mt-2 space-y-1.5">
+                    {module.items.map((item) =>
+                  <li key={item} className="flex gap-2 text-sm leading-relaxed text-muted">
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                        {item}
+                      </li>
+                  )}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </FadeIn>
+        </div>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <FadeIn>
+            <div className="h-full rounded-3xl border border-warn/25 bg-warn/5 p-6 md:p-8">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-warn">Limitations</h3>
+              <ul className="mt-5 space-y-2">
+                {LIMITATIONS.map((item) =>
+                <li key={item} className="flex gap-2 text-sm leading-relaxed text-muted">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-warn" />
+                    {item}
+                  </li>
+                )}
+              </ul>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <div className="h-full rounded-3xl border border-accent/25 bg-accent/5 p-6 md:p-8">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-accent">Expected outcome</h3>
+              <ul className="mt-5 space-y-2">
+                {OUTCOMES.map((item) =>
+                <li key={item} className="flex gap-2 text-sm leading-relaxed text-muted">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                    {item}
+                  </li>
+                )}
+              </ul>
+            </div>
+          </FadeIn>
+        </div>
+
+        <FadeIn className="mt-6">
+          <div className="rounded-3xl border border-white/10 bg-navydark/60 p-6 md:p-8">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">Conclusion</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">{CONCLUSION}</p>
+          </div>
+        </FadeIn>
 
         <FadeIn className="mt-10 text-center">
           <a
