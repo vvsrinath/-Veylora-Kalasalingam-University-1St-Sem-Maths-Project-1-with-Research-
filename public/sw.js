@@ -3,9 +3,17 @@
    every URL against the registration scope, so it works at /, /veylora/, etc.
    Bump CACHE_VERSION when you ship new builds. */
 
-const CACHE_VERSION = 'veylora-shell-v2';
+const CACHE_VERSION = 'veylora-shell-v3';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+
+/* Live-context APIs whose responses are cached so weather, air quality,
+   geocoding and elevation remain available offline (last-known values). */
+const RUNTIME_API_HOSTS = new Set([
+  'api.open-meteo.com',
+  'air-quality-api.open-meteo.com',
+  'api.bigdatacloud.net'
+]);
 
 const SCOPE = self.registration.scope;
 const toAbs = (path) => new URL(path, SCOPE).href;
@@ -80,12 +88,38 @@ async function navigationFallback(request) {
   }
 }
 
+/**
+ * Network-first for remote context APIs. Fresh values when online, and the
+ * last successful response from cache when offline — so context data is
+ * "saved in cache" and survives a lost connection.
+ */
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response && response.ok) {
+      const copy = response.clone();
+      caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
+    }
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    return new Response(JSON.stringify({ offline: true }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin) {
+    if (RUNTIME_API_HOSTS.has(url.hostname)) event.respondWith(networkFirst(request));
+    return;
+  }
   if (url.pathname === new URL('sw.js', SCOPE).pathname) return;
   if (url.pathname === new URL('manifest.webmanifest', SCOPE).pathname) return;
 

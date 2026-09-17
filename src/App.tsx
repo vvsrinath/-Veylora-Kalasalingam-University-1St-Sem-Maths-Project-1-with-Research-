@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppDataProvider } from './contexts/AppDataContext';
 import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 import { InstallPrompt } from './components/InstallPrompt';
+import { MobileInstallGate } from './components/MobileInstallGate';
 import { Splash } from './pages/Splash';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
@@ -51,6 +52,7 @@ export function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <InstallPrompt />
+        <MobileInstallGate />
       </BrowserRouter>
     </AppDataProvider>);
 

@@ -3,16 +3,10 @@ import { motion } from 'framer-motion';
 import { DownloadIcon, ShareIcon, XIcon } from 'lucide-react';
 import { usePwa } from '../hooks/usePwa';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { isIosDevice, isMobileDevice } from '../utils/pwa';
 import { Button } from './ui/Button';
 
 const DISMISS_KEY = 'veylora.installDismissed';
-
-function isIos(): boolean {
-  if (typeof window === 'undefined') return false;
-  const nav = navigator as Navigator & { platform?: string };
-  const ua = navigator.userAgent;
-  return /iPad|iPhone|iPod/.test(ua) || (nav.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-}
 
 function readDismissed(): boolean {
   if (typeof window === 'undefined') return false;
@@ -28,8 +22,8 @@ export function InstallPrompt() {
   const reduced = usePrefersReducedMotion();
   const [dismissed, setDismissed] = useState(readDismissed);
 
-  const ios = isIos();
-  const show = !dismissed && !appInstalled && (canInstall || ios);
+  const ios = isIosDevice();
+  const show = !isMobileDevice() && !dismissed && !appInstalled && (canInstall || ios);
 
   function dismiss() {
     try {
