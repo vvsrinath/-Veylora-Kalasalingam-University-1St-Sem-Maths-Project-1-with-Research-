@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../Logo';
+import { InstallButton } from '../InstallButton';
 
 const NAV_ITEMS = [
 { label: 'Dashboard', to: '/dashboard' },
@@ -36,6 +37,9 @@ export function TopNav() {
 
         })}
       </nav>
+      <div className="flex items-center">
+        <InstallButton label="Install app" variant="outline" size="sm" />
+      </div>
     </header>);
 
 }

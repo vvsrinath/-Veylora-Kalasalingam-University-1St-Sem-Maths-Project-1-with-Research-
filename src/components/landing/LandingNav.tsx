@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { Logo } from '../Logo';
 import { Button } from '../ui/Button';
+import { InstallButton } from '../InstallButton';
 
 const LINKS = [
 { label: 'Home', href: '#top' },
@@ -34,7 +35,8 @@ export function LandingNav() {
           )}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <InstallButton label="Install app" variant="outline" theme="dark" size="sm" />
           <Link to="/dashboard">
             <Button size="sm">Get Veylora</Button>
           </Link>
@@ -68,6 +70,9 @@ export function LandingNav() {
           <Link to="/dashboard" className="mt-3 block" onClick={() => setOpen(false)}>
             <Button className="w-full">Get Veylora</Button>
           </Link>
+          <div className="mt-2">
+            <InstallButton label="Install app" variant="outline" theme="dark" className="w-full" />
+          </div>
         </div>
       }
     </header>);
