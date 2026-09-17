@@ -2,7 +2,7 @@
 
 **Veylora** is a personalized, offline-first web app that helps you understand and reduce the fuel your vehicle burns. It turns your own vehicle profile and trip data into an explainable calculus-based consumption model, then recommends a speed that costs you less fuel and less money.
 
-- **Live app:** https://<your-project>.pages.dev/ (Cloudflare Pages)
+- **Live app:** https://veylora.<account-subdomain>.workers.dev/ (Cloudflare Workers)
 - **Source:** https://github.com/vvsrinath/Veylora
 - **No sign-up, no server, no tracking.** Everything is stored on your device.
 
@@ -166,7 +166,7 @@ v* = −(−0.348) / (2 × 0.003) = 58 km/h
 | State | React Context + `localStorage` |
 | PWA | Web App Manifest + Service Worker (hand-written) |
 | Research engine | Python 3 + SymPy |
-| Hosting | Cloudflare Pages |
+| Hosting | Cloudflare Workers (static assets) |
 
 No backend server, database, or auth provider is required.
 
@@ -209,6 +209,7 @@ No backend server, database, or auth provider is required.
 ├─ index.html
 ├─ tailwind.config.js
 ├─ vite.config.ts
+├─ wrangler.jsonc              # Cloudflare Workers static-assets config
 ├─ vercel.json                 # SPA rewrites (alternative host)
 └─ package.json
 ```
@@ -326,25 +327,27 @@ Updating: when you ship a new build, bump `CACHE_VERSION` in `public/sw.js` so c
 
 ## Deployment
 
-The app is deployed to **Cloudflare Pages** with Git integration on this repository.
+The app is deployed as **Cloudflare Workers static assets** with Workers Builds (Git integration on this repository).
 
-- **URL:** https://<your-project>.pages.dev/
+- **URL:** https://veylora.<account-subdomain>.workers.dev/
 - **Triggers:** every push to `main` (pull requests get preview deployments).
 - **Build command:** `npm run build`
+- **Deploy command:** `npx wrangler deploy`
 - **Build output directory:** `dist`
 
 Configuration notes:
 
-- **SPA routing** — `public/_redirects` (`/* /index.html 200`) makes deep links like `/trip/history` fall back to the app shell.
+- **`wrangler.jsonc`** declares the Worker (`name: veylora`) and points static assets at `./dist`. Providing this file makes Wrangler deploy the built assets directly instead of trying to auto-configure the framework — which would require Vite ≥ 6 (this project uses Vite 5).
+- **SPA routing** — `assets.not_found_handling: "single-page-application"` serves `index.html` for unmatched routes (e.g. `/trip/history`); `public/_redirects` provides the same fallback as a belt-and-braces.
 - **Service-worker freshness** — `public/_headers` sets `Cache-Control: no-cache` on `sw.js`, `index.html`, and `manifest.webmanifest`, while Vite's hashed assets stay immutable.
-- **Base path** — Cloudflare serves from the root, so no `VITE_BASE_PATH` is needed. Set it only for a sub-path host.
+- **Base path** — Workers serve from the root, so no `VITE_BASE_PATH` is needed.
 
 Other hosts:
 
 - **Vercel** — `vercel.json` rewrites all routes to `/index.html` (SPA).
 - **Netlify** — `public/_redirects` provides the same fallback.
 
-Custom domains are configured in the Cloudflare Pages project; the build is host-agnostic because asset and manifest URLs are root-relative.
+Custom domains are configured on the Worker; the build is host-agnostic because asset and manifest URLs are root-relative.
 
 ---
 
@@ -385,7 +388,8 @@ The Python package mirrors the TypeScript utilities in `src/utils/`; the TypeScr
 | `postcss.config.js` | Tailwind + Autoprefixer. |
 | `public/manifest.webmanifest` | PWA identity, icons, display mode. |
 | `public/sw.js` | Offline caching strategy + cache version. |
-| `public/_redirects`, `public/_headers` | SPA fallback and cache headers for Cloudflare Pages. |
+| `public/_redirects`, `public/_headers` | SPA fallback and cache headers for Cloudflare. |
+| `wrangler.jsonc` | Cloudflare Worker + static-assets (SPA) configuration. |
 | `vercel.json` | SPA rewrites for the Vercel alternative host. |
 
 ### Theme tokens
