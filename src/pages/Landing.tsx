@@ -5,6 +5,7 @@ import { ValueSection } from '../components/landing/ValueSection';
 import { HowItWorks } from '../components/landing/HowItWorks';
 import { FeatureShowcase } from '../components/landing/FeatureShowcase';
 import { DeveloperSection } from '../components/landing/DeveloperSection';
+import { AboutSection } from '../components/landing/AboutSection';
 import { InstallAndFooter } from '../components/landing/InstallAndFooter';
 
 export function Landing() {
@@ -16,6 +17,7 @@ export function Landing() {
       <HowItWorks />
       <FeatureShowcase />
       <DeveloperSection />
+      <AboutSection />
       <InstallAndFooter />
     </div>);
 

@@ -49,7 +49,7 @@ export function InstallAndFooter() {
         </div>
       </section>
 
-      <footer id="about" className="border-t border-white/10 bg-navy py-14">
+      <footer className="border-t border-white/10 bg-navy py-14">
         <div className="mx-auto max-w-7xl px-6 md:px-10">
           <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
             <div>

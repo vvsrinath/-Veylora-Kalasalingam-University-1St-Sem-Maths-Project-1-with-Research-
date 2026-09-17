@@ -8,8 +8,43 @@
 
 ---
 
+## About Veylora
+
+**Veylora** is a mathematical and technology-based project designed to study and optimize automobile fuel consumption. The project models fuel consumption as a function of vehicle speed and applies differentiation to determine the speed corresponding to minimum fuel consumption.
+
+The central idea is to understand how changes in speed affect fuel usage. By using mathematical functions, graphs, first derivatives, and second derivatives, Veylora identifies critical points and determines whether they represent minimum or maximum fuel-consumption values.
+
+The project begins with a basic speed-based model:
+
+$$
+F(v)=av^2+bv+c
+$$
+
+where $v$ represents vehicle speed and $F(v)$ represents fuel consumption. Differentiation is then used to find the critical speed:
+
+$$
+F'(v)=0
+$$
+
+The second derivative helps determine whether the calculated point is a minimum or maximum.
+
+Veylora also provides a foundation for future development. The model can be extended by considering vehicle weight, vehicle age, fuel type, engine characteristics, road conditions, road gradient, traffic, weather, air-conditioning usage, maintenance condition, acceleration, braking, idling, and driving behaviour.
+
+In future versions, these factors may be combined with multivariable calculus, numerical methods, data analysis, and optimization techniques to create a more personalized fuel-consumption prediction system.
+
+The project combines **mathematics, automobile engineering, data analysis, and software development** to investigate how fuel efficiency can be improved through scientific modelling rather than guesswork.
+
+### Project Vision
+
+The vision of Veylora is to develop a lightweight and intelligent system that helps users understand fuel consumption, identify efficient driving conditions, compare different situations, and make data-supported decisions for reducing fuel usage and operating costs.
+
+**Veylora — Find your most efficient drive.**
+
+---
+
 ## Table of contents
 
+- [About Veylora](#about-veylora)
 - [What it does](#what-it-does)
 - [Screens & routes](#screens--routes)
 - [The mathematics](#the-mathematics)

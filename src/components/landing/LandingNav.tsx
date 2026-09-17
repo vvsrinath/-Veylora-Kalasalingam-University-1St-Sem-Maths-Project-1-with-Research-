@@ -9,9 +9,9 @@ const LINKS = [
 { label: 'Home', href: '#top' },
 { label: 'Features', href: '#features' },
 { label: 'How It Works', href: '#how-it-works' },
-{ label: 'Download', href: '#download' },
 { label: 'Developer', href: '#developer' },
-{ label: 'About', href: '#about' }];
+{ label: 'About', href: '#about' },
+{ label: 'Download', href: '#download' }];
 
 
 export function LandingNav() {
