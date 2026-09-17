@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { PlayIcon, PauseIcon, SquareIcon, ShieldAlertIcon, WifiIcon, WifiOffIcon } from 'lucide-react';
+import { PlayIcon, PauseIcon, SquareIcon, ShieldAlertIcon, WifiIcon, WifiOffIcon, MapPinIcon, ThermometerIcon, CloudFogIcon } from 'lucide-react';
 import { AppShell } from '../components/layout/AppShell';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
@@ -8,15 +8,18 @@ import { SpeedGauge } from '../components/trip/SpeedGauge';
 import { RoutePath } from '../components/trip/RoutePath';
 import { useLiveTrip } from '../hooks/useLiveTrip';
 import { useAppData } from '../contexts/AppDataContext';
+import { aqiLabel } from '../utils/environmentApi';
 import { formatDuration, formatDistance, formatSpeed } from '../utils/format';
 
 export function StartTrip() {
   const navigate = useNavigate();
   const { activeVehicle } = useAppData();
   const { state, start, pause, resume, end } = useLiveTrip();
+  const [finalizing, setFinalizing] = useState(false);
 
-  function handleEnd() {
-    const result = end();
+  async function handleEnd() {
+    setFinalizing(true);
+    const result = await end();
     navigate('/trip/fuel-entry', { state: result });
   }
 
@@ -44,6 +47,27 @@ export function StartTrip() {
           </div>
           {gpsBadge}
         </div>
+
+        {(state.geoContext || state.environment) &&
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            {state.geoContext &&
+        <Badge tone="muted" icon={<MapPinIcon size={12} />}>
+                {[state.geoContext.city, state.geoContext.state, state.geoContext.country].filter(Boolean).join(', ') ||
+          'Location detected'}
+            </Badge>
+        }
+            {state.environment &&
+        <Badge tone="muted" icon={<ThermometerIcon size={12} />}>
+                {Math.round(state.environment.temperatureC)}°C
+            </Badge>
+        }
+            {state.environment && state.environment.aqi > 0 &&
+        <Badge tone={state.environment.aqi <= 100 ? 'success' : 'warn'} icon={<CloudFogIcon size={12} />}>
+                AQI {state.environment.aqi} · {aqiLabel(state.environment.aqi).label}
+            </Badge>
+        }
+          </div>
+        }
 
         <div className="mt-8 rounded-3xl border border-white/10 bg-surface/60 p-6">
           <SpeedGauge speedKmh={state.currentSpeedKmh} active={state.status === 'active'} />
@@ -95,17 +119,17 @@ export function StartTrip() {
           {(state.status === 'active' || state.status === 'paused') &&
           <div className="flex gap-3">
               {state.status === 'active' ?
-            <Button size="lg" variant="outline" className="flex-1" onClick={pause}>
+            <Button size="lg" variant="outline" className="flex-1" onClick={pause} disabled={finalizing}>
                   <PauseIcon size={18} />
                   Pause
                 </Button> :
 
-            <Button size="lg" className="flex-1" onClick={resume}>
+            <Button size="lg" className="flex-1" onClick={resume} disabled={finalizing}>
                   <PlayIcon size={18} />
                   Resume
                 </Button>
             }
-              <Button size="lg" variant="danger" className="flex-1" onClick={handleEnd}>
+              <Button size="lg" variant="danger" className="flex-1" onClick={handleEnd} disabled={finalizing}>
                 <SquareIcon size={16} />
                 End
               </Button>
@@ -113,7 +137,9 @@ export function StartTrip() {
           }
 
           {state.status === 'completed' &&
-          <p className="text-center text-sm text-muted">Trip ended. Redirecting to fuel entry…</p>
+          <p className="text-center text-sm text-muted">
+              {finalizing ? 'Finalising trip context (weather, AQI, roads)…' : 'Redirecting to fuel entry…'}
+            </p>
           }
         </div>
       </div>

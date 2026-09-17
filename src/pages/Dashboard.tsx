@@ -4,6 +4,7 @@ import { GaugeIcon, ActivityIcon, WalletIcon, TrendingUpIcon, ArrowRightIcon, Ch
 import { AppShell } from '../components/layout/AppShell';
 import { MetricCard } from '../components/dashboard/MetricCard';
 import { VehicleSwitcher } from '../components/dashboard/VehicleSwitcher';
+import { LiveContextCard } from '../components/dashboard/LiveContextCard';
 import { Button } from '../components/ui/Button';
 import { useAppData } from '../contexts/AppDataContext';
 import { getConsumptionModel } from '../utils/fuelMath';
@@ -163,6 +164,10 @@ export function Dashboard() {
               <ChevronRightIcon size={15} />
             </Link>
           </div>
+        </div>
+
+        <div className="mt-5">
+          <LiveContextCard />
         </div>
       </div>
     </AppShell>);

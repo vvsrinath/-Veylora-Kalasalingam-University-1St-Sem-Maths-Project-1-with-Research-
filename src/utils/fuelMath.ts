@@ -64,6 +64,71 @@ export function consumptionAtSpeed(model: ConsumptionModel, speedKmh: number): n
   return model.a * speedKmh ** 2 + model.b * speedKmh + model.c;
 }
 
+export function consumptionDerivative(model: ConsumptionModel, speedKmh: number): number {
+  return 2 * model.a * speedKmh + model.b;
+}
+
+export function consumptionSecondDerivative(model: ConsumptionModel): number {
+  return 2 * model.a;
+}
+
+export function isMinimumStationaryPoint(model: ConsumptionModel): boolean {
+  return model.a > 0;
+}
+
+export function stationarySpeedKmh(model: ConsumptionModel): number {
+  return -model.b / (2 * model.a);
+}
+
+export function speedDifferenceKmh(currentSpeedKmh: number, optimalSpeedKmh: number): number {
+  return currentSpeedKmh - optimalSpeedKmh;
+}
+
+export function fuelSavingPercent(currentConsumption: number, optimalConsumption: number): number {
+  if (currentConsumption <= 0) return 0;
+  return Math.max(0, (currentConsumption - optimalConsumption) / currentConsumption * 100);
+}
+
+export interface EnvironmentalFactors {
+  temperatureFactor: number;
+  aqiFactor: number;
+  terrainFactor: number;
+  roadFactor: number;
+  combined: number;
+}
+
+export function temperatureFactor(temperatureC: number): number {
+  if (temperatureC < 20) return 1 + (20 - temperatureC) * 0.008;
+  if (temperatureC > 28) return 1 + (temperatureC - 28) * 0.004;
+  return 1;
+}
+
+export function aqiFactor(aqi: number): number {
+  if (aqi <= 100) return 1;
+  return 1 + (aqi - 100) / 100 * 0.06;
+}
+
+export function terrainFactor(elevationGainM: number, distanceKm: number): number {
+  if (distanceKm <= 0) return 1;
+  const gradePercent = elevationGainM / (distanceKm * 1000) * 100;
+  return 1 + gradePercent * 0.014;
+}
+
+export function roadTypeFactor(roadType: string): number {
+  if (roadType === 'highway') return 0.94;
+  if (roadType === 'rural') return 1.02;
+  if (roadType === 'city') return 1.06;
+  return 1;
+}
+
+export function combinedEnvironmentalFactor(factors: EnvironmentalFactors): number {
+  return factors.temperatureFactor * factors.aqiFactor * factors.terrainFactor * factors.roadFactor;
+}
+
+export function adjustedConsumptionL100km(baseL100km: number, factors: EnvironmentalFactors): number {
+  return Number((baseL100km * combinedEnvironmentalFactor(factors)).toFixed(2));
+}
+
 export function buildCurvePoints(model: ConsumptionModel, minV = 10, maxV = 120, step = 5) {
   const points: {speed: number;consumption: number;}[] = [];
   for (let v = minV; v <= maxV; v += step) {
@@ -95,7 +160,7 @@ export function computeCostPerKm(fuelCost: number, distanceKm: number): number |
   return fuelCost / distanceKm;
 }
 
-const CO2_FACTOR_KG_PER_L: Record<FuelType, number> = {
+export const CO2_FACTOR_KG_PER_L: Record<FuelType, number> = {
   petrol: 2.31,
   diesel: 2.68,
   cng: 1.9,

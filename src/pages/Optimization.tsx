@@ -3,12 +3,17 @@ import { GaugeIcon, TrendingDownIcon } from 'lucide-react';
 import { AppShell } from '../components/layout/AppShell';
 import { ConsumptionChart } from '../components/optimization/ConsumptionChart';
 import { CalculusPanel } from '../components/optimization/CalculusPanel';
+import { PhysicsPanel } from '../components/optimization/PhysicsPanel';
+import { WeightedScorePanel } from '../components/optimization/WeightedScorePanel';
+import { ConstraintPanel } from '../components/optimization/ConstraintPanel';
 import { useAppData } from '../contexts/AppDataContext';
-import { getConsumptionModel, consumptionAtSpeed } from '../utils/fuelMath';
+import { getConsumptionModel, consumptionAtSpeed, fuelSavingPercent } from '../utils/fuelMath';
+import { physicsSpec } from '../utils/physicsMath';
 
 export function Optimization() {
   const { activeVehicle, tripsForActiveVehicle } = useAppData();
   const model = useMemo(() => getConsumptionModel(activeVehicle), [activeVehicle]);
+  const spec = useMemo(() => physicsSpec(activeVehicle), [activeVehicle]);
 
   const currentAvgSpeed = useMemo(() => {
     const recent = tripsForActiveVehicle.slice(0, 6);
@@ -19,9 +24,7 @@ export function Optimization() {
   const savingsPercent = useMemo(() => {
     if (!currentAvgSpeed) return null;
     const currentConsumption = consumptionAtSpeed(model, currentAvgSpeed);
-    if (currentConsumption <= 0) return null;
-    const diff = (currentConsumption - model.minConsumptionL100km) / currentConsumption * 100;
-    return Math.max(0, Math.round(diff));
+    return Math.round(fuelSavingPercent(currentConsumption, model.minConsumptionL100km));
   }, [currentAvgSpeed, model]);
 
   return (
@@ -74,6 +77,18 @@ export function Optimization() {
 
         <div className="mt-5">
           <CalculusPanel model={model} />
+        </div>
+
+        <div className="mt-5">
+          <PhysicsPanel spec={spec} speedKmh={model.optimalSpeedKmh} />
+        </div>
+
+        <div className="mt-5">
+          <WeightedScorePanel trips={tripsForActiveVehicle} />
+        </div>
+
+        <div className="mt-5">
+          <ConstraintPanel optimalSpeedKmh={model.optimalSpeedKmh} currentAvgSpeedKmh={currentAvgSpeed} />
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-muted">

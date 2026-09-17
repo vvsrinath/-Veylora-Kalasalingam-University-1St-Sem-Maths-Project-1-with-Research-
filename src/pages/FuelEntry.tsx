@@ -93,7 +93,12 @@ export function FuelEntry() {
       source,
       gpsSource: tripDraft?.gpsSource,
       avgAccuracyM: tripDraft?.accuracyM ?? undefined,
-      optimalSpeedAtTripKmh: model.optimalSpeedKmh
+      optimalSpeedAtTripKmh: model.optimalSpeedKmh,
+      routeCoordinates: tripDraft?.routeCoordinates ?? undefined,
+      geoContext: tripDraft?.geoContext ?? undefined,
+      environment: tripDraft?.environment ?? undefined,
+      environmentEnd: tripDraft?.environmentEnd ?? undefined,
+      road: tripDraft?.road ?? undefined
     };
 
     trip.recommendations = generateRecommendations(trip, activeVehicle, model.optimalSpeedKmh);
