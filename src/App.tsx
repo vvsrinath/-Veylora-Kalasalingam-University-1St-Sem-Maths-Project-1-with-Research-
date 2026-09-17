@@ -6,6 +6,13 @@ import { InstallPrompt } from './components/InstallPrompt';
 import { MobileInstallGate } from './components/MobileInstallGate';
 import { Splash } from './pages/Splash';
 import { Landing } from './pages/Landing';
+import { FeaturesPage } from './pages/FeaturesPage';
+import { HowItWorksPage } from './pages/HowItWorksPage';
+import { DeveloperPage } from './pages/DeveloperPage';
+import { AboutPage } from './pages/AboutPage';
+import { ResearchPage } from './pages/ResearchPage';
+import { DownloadPage } from './pages/DownloadPage';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Dashboard } from './pages/Dashboard';
 import { VehicleSetup } from './pages/VehicleSetup';
 import { MyVehicles } from './pages/MyVehicles';
@@ -37,8 +44,15 @@ export function App() {
   return (
     <AppDataProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/developer" element={<DeveloperPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/research" element={<ResearchPage />} />
+          <Route path="/download" element={<DownloadPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/vehicle-setup" element={<VehicleSetup />} />
           <Route path="/my-vehicles" element={<MyVehicles />} />

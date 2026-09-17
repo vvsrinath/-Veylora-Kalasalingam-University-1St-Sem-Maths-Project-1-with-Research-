@@ -48,8 +48,8 @@ export function Profile() {
             </li>
           )}
           <li>
-            <a
-              href="#about"
+            <Link
+              to="/about"
               className="flex items-center justify-between px-4 py-3.5 transition-colors duration-150 hover:bg-white/5">
               
               <span className="flex items-center gap-3 text-sm font-medium text-soft">
@@ -57,7 +57,7 @@ export function Profile() {
                 About
               </span>
               <ChevronRightIcon size={16} className="text-muted" />
-            </a>
+            </Link>
           </li>
         </ul>
 

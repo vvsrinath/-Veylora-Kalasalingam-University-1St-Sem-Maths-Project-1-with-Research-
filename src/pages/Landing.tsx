@@ -1,26 +1,15 @@
 import React from 'react';
-import { LandingNav } from '../components/landing/LandingNav';
+import { SiteLayout } from '../components/landing/SiteLayout';
 import { Hero } from '../components/landing/Hero';
 import { ValueSection } from '../components/landing/ValueSection';
-import { HowItWorks } from '../components/landing/HowItWorks';
-import { FeatureShowcase } from '../components/landing/FeatureShowcase';
-import { DeveloperSection } from '../components/landing/DeveloperSection';
-import { AboutSection } from '../components/landing/AboutSection';
-import { ResearchSection } from '../components/landing/ResearchSection';
-import { InstallAndFooter } from '../components/landing/InstallAndFooter';
+import { ExploreSection } from '../components/landing/ExploreSection';
 
 export function Landing() {
   return (
-    <div className="w-full min-h-full bg-navy">
-      <LandingNav />
+    <SiteLayout>
       <Hero />
       <ValueSection />
-      <HowItWorks />
-      <FeatureShowcase />
-      <DeveloperSection />
-      <AboutSection />
-      <ResearchSection />
-      <InstallAndFooter />
-    </div>);
+      <ExploreSection />
+    </SiteLayout>);
 
 }

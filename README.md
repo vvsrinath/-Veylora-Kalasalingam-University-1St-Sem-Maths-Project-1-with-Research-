@@ -86,7 +86,13 @@ It is designed for cars, motorcycles, scooters, three-wheelers, and other vehicl
 
 | Route | Page | Purpose |
 | --- | --- | --- |
-| `/` | `Landing` | Marketing page: hero, value, how it works, features, install section. |
+| `/` | `Landing` | Home page: hero, value cards, and links to the public pages. |
+| `/features` | `FeaturesPage` | Feature showcase. |
+| `/how-it-works` | `HowItWorksPage` | Four-step explanation of the workflow. |
+| `/developer` | `DeveloperPage` | Developer profile and contact details. |
+| `/about` | `AboutPage` | Project idea, mathematical model, and vision. |
+| `/research` | `ResearchPage` | Model charts, methodology, sample data, and Python programs. |
+| `/download` | `DownloadPage` | Install steps (PWA). |
 | `/dashboard` | `Dashboard` | Active-vehicle snapshot: KPIs, live context card, recent trips. |
 | `/vehicle-setup` | `VehicleSetup` | Guided multi-step wizard to add a vehicle. |
 | `/my-vehicles` | `MyVehicles` | List, switch, and manage vehicles. |

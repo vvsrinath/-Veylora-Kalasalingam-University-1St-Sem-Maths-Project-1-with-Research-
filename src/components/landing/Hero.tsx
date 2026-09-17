@@ -66,11 +66,11 @@ export function Hero() {
                   <ArrowRightIcon size={18} />
                 </Button>
               </Link>
-              <a href="#features">
+              <Link to="/features">
                 <Button variant="outline" size="lg">
                   Explore Features
                 </Button>
-              </a>
+              </Link>
             </motion.div>
 
             <motion.div
