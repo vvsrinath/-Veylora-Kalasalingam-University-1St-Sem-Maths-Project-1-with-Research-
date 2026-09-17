@@ -74,7 +74,8 @@ function buildTrip(input: SeedTripInput): Trip {
     co2SavedKg: input.co2SavedKg,
     dataQuality: quality.quality,
     dataQualityReasons: quality.reasons,
-    source: 'measured'
+    source: 'measured',
+    gpsSource: 'gps'
   };
 }
 

@@ -1,5 +1,6 @@
 export type DataQuality = 'high' | 'medium' | 'low';
 export type TripSource = 'measured' | 'estimated' | 'imported';
+export type GpsSource = 'gps' | 'simulated' | 'none';
 
 export interface Trip {
   id: string;
@@ -23,6 +24,8 @@ export interface Trip {
   dataQuality: DataQuality;
   dataQualityReasons: string[];
   source: TripSource;
+  gpsSource?: GpsSource;
+  avgAccuracyM?: number;
   optimalSpeedAtTripKmh?: number;
   recommendations?: string[];
 }

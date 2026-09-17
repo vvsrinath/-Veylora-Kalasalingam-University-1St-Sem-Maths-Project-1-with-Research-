@@ -40,7 +40,8 @@ export function TripReport() {
   { label: 'Consumption', value: trip.consumptionL100km ? `${trip.consumptionL100km.toFixed(1)} L/100km` : '—' },
   { label: 'Fuel Cost', value: trip.fuelCost ? formatCurrency(trip.fuelCost) : '—' },
   { label: 'Cost / km', value: trip.costPerKm ? formatCurrency(trip.costPerKm) : '—' },
-  { label: 'CO₂ Saved', value: trip.co2SavedKg !== undefined ? `${trip.co2SavedKg} kg` : '—' }];
+  { label: 'CO₂ Saved', value: trip.co2SavedKg !== undefined ? `${trip.co2SavedKg} kg` : '—' },
+  { label: 'GPS Accuracy', value: trip.avgAccuracyM != null ? `±${trip.avgAccuracyM} m` : '—' }];
 
 
   return (
@@ -57,7 +58,7 @@ export function TripReport() {
             <p className="mt-0.5 text-sm text-lightmuted">{formatDate(trip.date)}</p>
           </div>
           <Badge theme="light" tone="success" className="capitalize">
-            {trip.source}
+            {trip.gpsSource === 'simulated' ? 'Estimated (simulated GPS)' : trip.source}
           </Badge>
         </div>
 

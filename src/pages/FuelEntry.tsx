@@ -57,9 +57,17 @@ export function FuelEntry() {
       durationSec,
       hasFuelData: true,
       fuelEstimated,
+      gpsAccuracyLow: tripDraft
+        ? tripDraft.gpsSource === 'simulated' || (tripDraft.accuracyM != null && tripDraft.accuracyM > 50)
+        : undefined,
       maintenanceDataComplete: Boolean(activeVehicle.tyrePressureCondition && activeVehicle.engineCondition)
     });
     const model = getConsumptionModel(activeVehicle);
+    const source: Trip['source'] = tripDraft
+      ? tripDraft.gpsSource === 'gps' && !fuelEstimated
+        ? 'measured'
+        : 'estimated'
+      : fuelEstimated ? 'estimated' : 'measured';
 
     const trip: Trip = {
       id: createId('trip'),
@@ -82,7 +90,9 @@ export function FuelEntry() {
       co2SavedKg,
       dataQuality: quality.quality,
       dataQualityReasons: quality.reasons,
-      source: fuelEstimated ? 'estimated' : 'measured',
+      source,
+      gpsSource: tripDraft?.gpsSource,
+      avgAccuracyM: tripDraft?.accuracyM ?? undefined,
       optimalSpeedAtTripKmh: model.optimalSpeedKmh
     };
 

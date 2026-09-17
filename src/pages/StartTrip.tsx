@@ -20,6 +20,20 @@ export function StartTrip() {
     navigate('/trip/fuel-entry', { state: result });
   }
 
+  const gpsBadge = state.gpsSource === 'gps' ? (
+    <Badge tone="accent" icon={<WifiIcon size={13} />}>
+      GPS live{state.accuracyM != null ? ` · ±${state.accuracyM} m` : ''}
+    </Badge>
+  ) : state.gpsSource === 'simulated' ? (
+    <Badge tone="warn" icon={<WifiOffIcon size={13} />}>
+      Simulated — GPS unavailable
+    </Badge>
+  ) : (
+    <Badge tone="muted" icon={<WifiOffIcon size={13} />}>
+      GPS Unavailable
+    </Badge>
+  );
+
   return (
     <AppShell>
       <div className="mx-auto max-w-lg px-6 py-8 md:py-10">
@@ -28,9 +42,7 @@ export function StartTrip() {
             <h1 className="text-xl font-bold text-soft">Start Your Trip</h1>
             <p className="mt-0.5 text-sm text-muted">{activeVehicle.name}</p>
           </div>
-          <Badge tone={state.gpsConnected ? 'accent' : 'muted'} icon={state.gpsConnected ? <WifiIcon size={13} /> : <WifiOffIcon size={13} />}>
-            {state.gpsConnected ? 'GPS Connected' : 'GPS Unavailable'}
-          </Badge>
+          {gpsBadge}
         </div>
 
         <div className="mt-8 rounded-3xl border border-white/10 bg-surface/60 p-6">
@@ -51,6 +63,18 @@ export function StartTrip() {
           <ShieldAlertIcon size={16} className="mt-0.5 shrink-0 text-warn" />
           <p>Start tracking before driving. Do not operate the phone while the vehicle is moving.</p>
         </div>
+
+        {state.status === 'idle' &&
+        <p className="mt-2.5 text-xs leading-relaxed text-muted">
+            Veylora will ask for location access to record real distance and speed. If GPS is unavailable or denied, the trip is simulated and its results are marked lower quality.
+          </p>
+        }
+
+        {state.status === 'active' && state.gpsSource === 'simulated' &&
+        <p className="mt-2.5 text-xs leading-relaxed text-warn">
+            Live GPS could not be reached, so this trip is being simulated. Save it and it will be labelled as estimated, not measured.
+          </p>
+        }
 
         <div className="mt-6">
           {state.status === 'idle' &&
