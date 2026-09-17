@@ -5,10 +5,11 @@ import {
   PlusSquareIcon,
   MoreVerticalIcon,
   SmartphoneIcon,
+  CheckCircle2Icon,
   XIcon,
 } from 'lucide-react';
 import { usePwa } from '../hooks/usePwa';
-import { isAndroidDevice, isIosDevice, isMobileDevice } from '../utils/pwa';
+import { isAndroidDevice, isIosDevice } from '../utils/pwa';
 import { Button } from './ui/Button';
 import { ButtonSize, ButtonTheme, ButtonVariant } from './ui/buttonStyles';
 
@@ -30,8 +31,15 @@ export function InstallButton({
   const { canInstall, appInstalled, install } = usePwa();
   const [help, setHelp] = useState(false);
 
-  if (appInstalled) return null;
-  if (!canInstall && !isMobileDevice()) return null;
+  if (appInstalled) {
+    return (
+      <span
+        className={`inline-flex items-center justify-center gap-1.5 rounded-full border border-white/15 px-3.5 py-2 text-sm font-medium text-muted ${className}`}>
+        <CheckCircle2Icon size={15} aria-hidden="true" />
+        Installed
+      </span>
+    );
+  }
 
   async function handleClick() {
     if (canInstall) {
@@ -69,9 +77,9 @@ function InstallHelp({ onClose }: { onClose: () => void }) {
           { icon: SmartphoneIcon, text: 'Tap "Add", then open Veylora from your home screen.' },
         ]
       : [
-          { icon: MoreVerticalIcon, text: 'Open your browser menu.' },
-          { icon: DownloadIcon, text: 'Choose "Install" or "Add to Home screen".' },
-          { icon: SmartphoneIcon, text: 'Confirm to finish installing Veylora.' },
+          { icon: DownloadIcon, text: 'In Chrome or Edge, click the install icon in the address bar.' },
+          { icon: MoreVerticalIcon, text: 'Or open the browser menu and choose "Install Veylora".' },
+          { icon: SmartphoneIcon, text: 'Confirm to add it to your device.' },
         ];
 
   return (
