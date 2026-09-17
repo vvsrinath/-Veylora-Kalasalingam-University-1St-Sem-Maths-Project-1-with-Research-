@@ -1,0 +1,107 @@
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { PlayIcon, PauseIcon, SquareIcon, ShieldAlertIcon, WifiIcon, WifiOffIcon } from 'lucide-react';
+import { AppShell } from '../components/layout/AppShell';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { SpeedGauge } from '../components/trip/SpeedGauge';
+import { RoutePath } from '../components/trip/RoutePath';
+import { useLiveTrip } from '../hooks/useLiveTrip';
+import { useAppData } from '../contexts/AppDataContext';
+import { formatDuration, formatDistance, formatSpeed } from '../utils/format';
+
+export function StartTrip() {
+  const navigate = useNavigate();
+  const { activeVehicle } = useAppData();
+  const { state, start, pause, resume, end } = useLiveTrip();
+
+  function handleEnd() {
+    const result = end();
+    navigate('/trip/fuel-entry', { state: result });
+  }
+
+  return (
+    <AppShell>
+      <div className="mx-auto max-w-lg px-6 py-8 md:py-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-soft">Start Your Trip</h1>
+            <p className="mt-0.5 text-sm text-muted">{activeVehicle.name}</p>
+          </div>
+          <Badge tone={state.gpsConnected ? 'accent' : 'muted'} icon={state.gpsConnected ? <WifiIcon size={13} /> : <WifiOffIcon size={13} />}>
+            {state.gpsConnected ? 'GPS Connected' : 'GPS Unavailable'}
+          </Badge>
+        </div>
+
+        <div className="mt-8 rounded-3xl border border-white/10 bg-surface/60 p-6">
+          <SpeedGauge speedKmh={state.currentSpeedKmh} active={state.status === 'active'} />
+
+          <div className="mt-6 grid grid-cols-3 divide-x divide-white/10 border-t border-white/10 pt-5">
+            <Stat label="Distance" value={formatDistance(state.distanceKm)} />
+            <Stat label="Avg speed" value={formatSpeed(state.avgSpeedKmh)} />
+            <Stat label="Duration" value={formatDuration(state.durationSec)} />
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <RoutePath progress={state.routeProgress} active={state.status === 'active'} />
+        </div>
+
+        <div className="mt-6 flex gap-2.5 rounded-xl border border-warn/20 bg-warn/10 p-3.5 text-xs leading-relaxed text-soft">
+          <ShieldAlertIcon size={16} className="mt-0.5 shrink-0 text-warn" />
+          <p>Start tracking before driving. Do not operate the phone while the vehicle is moving.</p>
+        </div>
+
+        <div className="mt-6">
+          {state.status === 'idle' &&
+          <>
+              <Button size="lg" className="w-full" onClick={start}>
+                <PlayIcon size={18} />
+                Start Trip
+              </Button>
+              <Link
+              to="/trip/fuel-entry"
+              className="mt-3 block text-center text-sm font-medium text-muted hover:text-soft">
+              
+                Log a completed trip manually
+              </Link>
+            </>
+          }
+
+          {(state.status === 'active' || state.status === 'paused') &&
+          <div className="flex gap-3">
+              {state.status === 'active' ?
+            <Button size="lg" variant="outline" className="flex-1" onClick={pause}>
+                  <PauseIcon size={18} />
+                  Pause
+                </Button> :
+
+            <Button size="lg" className="flex-1" onClick={resume}>
+                  <PlayIcon size={18} />
+                  Resume
+                </Button>
+            }
+              <Button size="lg" variant="danger" className="flex-1" onClick={handleEnd}>
+                <SquareIcon size={16} />
+                End
+              </Button>
+            </div>
+          }
+
+          {state.status === 'completed' &&
+          <p className="text-center text-sm text-muted">Trip ended. Redirecting to fuel entry…</p>
+          }
+        </div>
+      </div>
+    </AppShell>);
+
+}
+
+function Stat({ label, value }: {label: string;value: string;}) {
+  return (
+    <div className="px-2 text-center first:pl-0 last:pr-0">
+      <p className="text-base font-bold tabular-nums text-soft">{value}</p>
+      <p className="mt-0.5 text-[11px] text-muted">{label}</p>
+    </div>);
+
+}
