@@ -1,0 +1,6 @@
+# Canonical identity for all Veylora commits.
+# Historical commits were made with a different no-reply address and get
+# mis-attributed to another GitHub account; map them all to the owner.
+vvsrinath <166697624+vvsrinath@users.noreply.github.com> <srinath@users.noreply.github.com>
+vvsrinath <166697624+vvsrinath@users.noreply.github.com> <vvsrinath@users.noreply.github.com>
+vvsrinath <166697624+vvsrinath@users.noreply.github.com> Srinath Vatchavari Venkateshan <166697624+vvsrinath@users.noreply.github.com>
