@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { registerServiceWorker, isDevHost } from '../utils/pwa';
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
-}
+import {
+  registerServiceWorker,
+  isDevHost,
+  hasDeferredInstallPrompt,
+  subscribeInstallPrompt,
+  promptInstall,
+} from '../utils/pwa';
 
 const INSTALLED_KEY = 'veylora.installed';
 
@@ -29,7 +30,7 @@ export interface PwaStatus {
 
 export function usePwa(): PwaStatus {
   const [swStatus, setSwStatus] = useState<PwaStatus['swStatus']>('registering');
-  const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
+  const [canInstall, setCanInstall] = useState(hasDeferredInstallPrompt);
   const [appInstalled, setAppInstalled] = useState(readInstalledFlag);
   const [storagePersistent, setStoragePersistent] = useState<boolean | null>(null);
   const [storageUsedMb, setStorageUsedMb] = useState<number | null>(null);
@@ -68,43 +69,36 @@ export function usePwa(): PwaStatus {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setInstallEvent(e as BeforeInstallPromptEvent);
-    };
+    setCanInstall(hasDeferredInstallPrompt());
+    const unsubscribePrompt = subscribeInstallPrompt(setCanInstall);
     const onInstalled = () => {
       try {
         localStorage.setItem(INSTALLED_KEY, '1');
       } catch { /* storage unavailable */ }
       setAppInstalled(true);
-      setInstallEvent(null);
     };
-    window.addEventListener('beforeinstallprompt', onPrompt);
     window.addEventListener('appinstalled', onInstalled);
     refreshStorage();
     return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt);
+      unsubscribePrompt();
       window.removeEventListener('appinstalled', onInstalled);
     };
   }, [refreshStorage]);
 
   const install = useCallback(async () => {
-    if (!installEvent) return false;
-    await installEvent.prompt();
-    const choice = await installEvent.userChoice;
-    if (choice.outcome === 'accepted') {
+    const accepted = await promptInstall();
+    if (accepted) {
       try {
         localStorage.setItem(INSTALLED_KEY, '1');
       } catch { /* storage unavailable */ }
       setAppInstalled(true);
     }
-    setInstallEvent(null);
-    return choice.outcome === 'accepted';
-  }, [installEvent]);
+    return accepted;
+  }, []);
 
   return {
     swStatus,
-    canInstall: Boolean(installEvent),
+    canInstall,
     appInstalled: appInstalled || (typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches),
     install,
     storagePersistent,

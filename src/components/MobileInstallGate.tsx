@@ -16,6 +16,8 @@ import {
   isIosDevice,
   isInAppBrowser,
   isStandaloneDisplay,
+  getDeferredInstallPrompt,
+  waitForInstallPrompt,
 } from '../utils/pwa';
 import { Button } from './ui/Button';
 import { Logo } from './Logo';
@@ -61,9 +63,20 @@ export function MobileInstallGate() {
   }
 
   async function handleInstall() {
-    setInstalling(true);
-    await install();
-    setInstalling(false);
+    // Give Android a moment for the deferred prompt if it hasn't arrived yet,
+    // then trigger the native installer. If none is available, show the steps.
+    if (android && !getDeferredInstallPrompt()) {
+      setInstalling(true);
+      await waitForInstallPrompt(2500);
+      setInstalling(false);
+    }
+    if (getDeferredInstallPrompt()) {
+      setInstalling(true);
+      await install();
+      setInstalling(false);
+      return;
+    }
+    setShowSteps(true);
   }
 
   const steps = android
@@ -115,7 +128,7 @@ export function MobileInstallGate() {
         <Button
           className="mt-6 w-full"
           size="lg"
-          onClick={canNativeInstall ? handleInstall : () => setShowSteps(true)}
+          onClick={handleInstall}
           disabled={installing}>
           <DownloadIcon size={18} aria-hidden="true" />
           {installing ? 'Opening installer\u2026' : 'Install Now'}
