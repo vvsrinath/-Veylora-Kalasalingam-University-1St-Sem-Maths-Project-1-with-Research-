@@ -8,6 +8,7 @@ import {
   SmartphoneIcon,
   CheckCircle2Icon,
   WifiOffIcon,
+  ArrowDownIcon,
 } from 'lucide-react';
 import { usePwa } from '../hooks/usePwa';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
@@ -91,10 +92,10 @@ export function MobileInstallGate() {
         { icon: SmartphoneIcon, text: 'Tap "Add", then open Veylora from your home screen.' },
       ];
 
-  const stepsOpen = showSteps || ios;
+  const stepsOpen = showSteps;
 
   const body = (
-    <div className="w-full max-w-md">
+    <div className={`w-full max-w-md ${ios ? 'pb-24' : ''}`}>
       <div className="flex justify-center">
         <Logo variant="full" size={34} theme="dark" />
       </div>
@@ -131,24 +132,28 @@ export function MobileInstallGate() {
           onClick={handleInstall}
           disabled={installing}>
           <DownloadIcon size={18} aria-hidden="true" />
-          {installing ? 'Opening installer\u2026' : 'Install Now'}
+          {installing ? 'Opening installer\u2026' : 'Install App'}
         </Button>
       )}
 
       {!inApp && !canNativeInstall && !appInstalled && stepsOpen && (
-        <ol className="mt-5 space-y-3">
-          {steps.map((step, i) => (
-            <li key={step.text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                <step.icon size={17} aria-hidden="true" />
-              </span>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                <span className="font-semibold text-soft">Step {i + 1}. </span>
-                {step.text}
-              </p>
-            </li>
-          ))}
-        </ol>
+        ios
+          ? <IosInstallGuide reduced={reduced} />
+          : (
+            <ol className="mt-5 space-y-3">
+              {steps.map((step, i) => (
+                <li key={step.text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
+                    <step.icon size={17} aria-hidden="true" />
+                  </span>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">
+                    <span className="font-semibold text-soft">Step {i + 1}. </span>
+                    {step.text}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          )
       )}
 
       {!inApp && (
@@ -192,6 +197,64 @@ export function MobileInstallGate() {
             {body}
           </motion.div>
         )}
+    </div>
+  );
+}
+
+function IosInstallGuide({ reduced }: { reduced: boolean }) {
+  const items = [
+    { icon: ShareIcon, title: 'Tap the Share icon', text: 'It sits in the Safari toolbar \u2014 usually at the bottom of the screen.' },
+    { icon: PlusSquareIcon, title: 'Add to Home Screen', text: 'Scroll the share menu and tap "Add to Home Screen".' },
+    { icon: SmartphoneIcon, title: 'Tap Add', text: 'Confirm with "Add" (top-right), then open Veylora from your home screen.' },
+  ];
+
+  return (
+    <div className="mt-5">
+      <div className="flex items-center gap-3 rounded-2xl border border-accent/30 bg-accent/10 p-4">
+        <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-navy">
+          <ShareIcon size={22} aria-hidden="true" />
+          {!reduced && (
+            <motion.span
+              className="absolute inset-0 rounded-2xl border-2 border-accent"
+              animate={{ scale: [1, 1.6], opacity: [0.7, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+            />
+          )}
+        </span>
+        <div>
+          <p className="text-sm font-semibold text-soft">Start by tapping Share</p>
+          <p className="text-xs leading-relaxed text-muted">
+            Safari's <span className="font-medium text-soft">Share</span> button is in the bottom toolbar.
+          </p>
+        </div>
+      </div>
+
+      <ol className="mt-4 space-y-3">
+        {items.map((item, i) => (
+          <li key={item.title} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
+              <item.icon size={17} aria-hidden="true" />
+            </span>
+            <div className="mt-0.5">
+              <p className="text-sm font-semibold text-soft">Step {i + 1}. {item.title}</p>
+              <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[110] flex flex-col items-center gap-1 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-navy shadow-lg">
+          Safari's Share button
+        </span>
+        {reduced
+          ? <ArrowDownIcon size={22} className="text-accent" aria-hidden="true" />
+          : (
+            <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}>
+              <ArrowDownIcon size={22} className="text-accent" aria-hidden="true" />
+            </motion.span>
+          )}
+      </div>
     </div>
   );
 }
