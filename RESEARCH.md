@@ -8,6 +8,8 @@
 
 **Tagline:** Find your most efficient drive.
 
+> Runnable versions of the Python programs in this document are available in [`research/`](research/).
+
 ---
 
 ## 2. Abstract

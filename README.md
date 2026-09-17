@@ -214,6 +214,11 @@ No backend server, database, or auth provider is required.
 
 ```
 .
+├─ research/                   # runnable Python programs (see RESEARCH.md)
+│  ├─ fuel_math_lab.py         # symbolic model, derivatives, plots
+│  ├─ fuel_regression.py       # quadratic regression on sample data
+│  ├─ numerical_differentiation.py
+│  └─ requirements.txt
 ├─ backend/
 │  └─ veylora_math/            # Python reference implementation (SymPy)
 │     ├─ __init__.py
