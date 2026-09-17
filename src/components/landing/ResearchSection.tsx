@@ -12,6 +12,7 @@ import {
 'recharts';
 import { ArrowUpRightIcon } from 'lucide-react';
 import { FadeIn } from '../ui/FadeIn';
+import { CodeViewer } from './CodeViewer';
 
 const RESEARCH_URL =
 'https://github.com/vvsrinath/-Veylora-Kalasalingam-University-1St-Sem-Maths-Project-1-with-Research-/blob/main/RESEARCH.md';
@@ -136,6 +137,19 @@ const OUTCOMES = [
 
 const CONCLUSION =
 'Veylora applies mathematical differentiation to an automobile engineering problem. By representing fuel consumption as a function of speed, first derivatives identify critical points and second derivatives classify them as maximum or minimum. The project starts with a simple speed-based model and can expand to include vehicle characteristics, fuel type, road conditions, environmental factors, maintenance, and driving behaviour — connecting calculus, automobile engineering, data analysis, Python programming, and optimization in one research-oriented project.';
+
+
+const SAMPLE_DATA = [
+{ speed: 20, fuel: 11.8 },
+{ speed: 30, fuel: 10.2 },
+{ speed: 40, fuel: 9.0 },
+{ speed: 50, fuel: 8.1 },
+{ speed: 60, fuel: 7.8 },
+{ speed: 70, fuel: 8.1 },
+{ speed: 80, fuel: 9.0 },
+{ speed: 90, fuel: 10.2 },
+{ speed: 100, fuel: 11.8 }];
+
 
 
 
@@ -345,6 +359,42 @@ export function ResearchSection() {
                 )}
               </ul>
             </div>
+          </FadeIn>
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+          <FadeIn>
+            <div className="h-full rounded-3xl border border-white/10 bg-navydark/60 p-6 md:p-8">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">Sample data</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                Illustrative speed and fuel-consumption values used to fit the model.
+              </p>
+              <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-white/5 text-xs uppercase tracking-wider text-muted">
+                    <tr>
+                      <th className="px-4 py-2.5 font-medium">Speed (km/h)</th>
+                      <th className="px-4 py-2.5 font-medium">Fuel consumption</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {SAMPLE_DATA.map((row) =>
+                    <tr key={row.speed} className="text-muted">
+                        <td className="px-4 py-2 font-mono text-soft">{row.speed}</td>
+                        <td className="px-4 py-2 font-mono text-soft">{row.fuel.toFixed(1)}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-xs leading-relaxed text-muted">
+                These values are illustrative and must be replaced with real vehicle-specific data.
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <CodeViewer />
           </FadeIn>
         </div>
 
