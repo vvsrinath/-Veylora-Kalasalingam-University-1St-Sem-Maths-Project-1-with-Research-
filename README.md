@@ -4,6 +4,7 @@
 
 - **Live app:** https://veylora.<account-subdomain>.workers.dev/ (Cloudflare Workers)
 - **Source:** https://github.com/vvsrinath/-Veylora-Kalasalingam-University-1St-Sem-Maths-Project-1-with-Research-
+- **Full research details:** [RESEARCH.md](RESEARCH.md)
 - **No sign-up, no server, no tracking.** Everything is stored on your device.
 
 ---
@@ -45,6 +46,7 @@ The vision of Veylora is to develop a lightweight and intelligent system that he
 ## Table of contents
 
 - [About Veylora](#about-veylora)
+- [Full research details](RESEARCH.md)
 - [What it does](#what-it-does)
 - [Screens & routes](#screens--routes)
 - [The mathematics](#the-mathematics)
