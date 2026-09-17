@@ -83,7 +83,7 @@ export function ConstraintPanel({ optimalSpeedKmh, currentAvgSpeedKmh }: Constra
         </label>
       </div>
 
-      <div className="mt-5 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
         <div>
           <p className="text-[11px] text-muted">Recommended speed</p>
           <p className="text-2xl font-bold tabular-nums text-soft">{Math.round(recommended)} km/h</p>

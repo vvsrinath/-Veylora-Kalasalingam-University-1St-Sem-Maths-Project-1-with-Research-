@@ -26,7 +26,7 @@ export function CodeViewer() {
   };
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-navydark/60 p-6 md:p-8">
+    <div className="min-w-0 rounded-3xl border border-white/10 bg-navydark/60 p-6 md:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">Python programs</h3>
         <button
@@ -58,7 +58,7 @@ export function CodeViewer() {
       </div>
 
       <p className="mt-4 font-mono text-xs text-muted">{program.filename}</p>
-      <pre className="mt-2 max-h-96 overflow-auto rounded-2xl border border-white/10 bg-navy/70 p-4 text-xs leading-relaxed text-soft/90">
+      <pre className="mt-2 max-h-96 w-full min-w-0 overflow-auto rounded-2xl border border-white/10 bg-navy/70 p-4 text-xs leading-relaxed text-soft/90">
         <code>{program.code}</code>
       </pre>
     </div>);

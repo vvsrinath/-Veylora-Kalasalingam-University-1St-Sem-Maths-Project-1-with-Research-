@@ -19,8 +19,8 @@ export function SpeedGauge({ speedKmh, maxSpeedKmh = 140, active }: SpeedGaugePr
   const offset = CIRCUMFERENCE * (1 - ratio);
 
   return (
-    <div className="relative mx-auto" style={{ width: SIZE, height: SIZE }}>
-      <svg width={SIZE} height={SIZE} className="-rotate-90" role="img" aria-label={`Current speed ${Math.round(speedKmh)} kilometres per hour`}>
+    <div className="relative mx-auto aspect-square w-full max-w-[240px]">
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full -rotate-90" role="img" aria-label={`Current speed ${Math.round(speedKmh)} kilometres per hour`}>
         <circle cx={SIZE / 2} cy={SIZE / 2} r={RADIUS} stroke="rgba(255,255,255,0.08)" strokeWidth={STROKE} fill="none" />
         <motion.circle
           cx={SIZE / 2}

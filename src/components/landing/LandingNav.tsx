@@ -19,20 +19,20 @@ export function LandingNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-navy/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-navy/80 pt-[env(safe-area-inset-top)] backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-10">
         <Link to="/" className="flex items-center" aria-label="Veylora home">
           <Logo size={26} theme="dark" />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Site">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Site">
           {LINKS.map((link) =>
           <NavLink
             key={link.to}
             to={link.to}
             end={link.to === '/'}
             className={({ isActive }) =>
-            `rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 ease-out ${
+            `whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors duration-150 ease-out ${
             isActive ? 'bg-white/5 text-soft' : 'text-muted hover:bg-white/5 hover:text-soft'}`
             }>
             
@@ -41,8 +41,10 @@ export function LandingNav() {
           )}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <InstallButton label="Install app" variant="outline" theme="dark" size="sm" />
+        <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden xl:block">
+            <InstallButton label="Install app" variant="outline" theme="dark" size="sm" />
+          </div>
           <Link to="/dashboard">
             <Button size="sm">Get Veylora</Button>
           </Link>
@@ -50,7 +52,7 @@ export function LandingNav() {
 
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-full text-soft md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-soft lg:hidden"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}>
@@ -60,7 +62,7 @@ export function LandingNav() {
       </div>
 
       {open &&
-      <div className="border-t border-white/10 bg-navy px-6 py-4 md:hidden">
+      <div className="border-t border-white/10 bg-navy px-6 py-4 lg:hidden">
           <nav className="flex flex-col gap-1" aria-label="Site">
             {LINKS.map((link) =>
           <NavLink

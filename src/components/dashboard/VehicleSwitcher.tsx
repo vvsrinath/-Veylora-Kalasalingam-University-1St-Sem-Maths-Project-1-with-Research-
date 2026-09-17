@@ -26,13 +26,15 @@ export function VehicleSwitcher() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 pl-1.5 pr-3 text-sm font-medium text-soft transition-colors duration-150 hover:bg-white/10">
+        className="flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 pl-1.5 pr-3 text-sm font-medium text-soft transition-colors duration-150 hover:bg-white/10">
         
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent/15 text-accent">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
           <CarIcon size={15} aria-hidden="true" />
         </span>
-        {activeVehicle.name} · {FUEL_TYPE_LABELS[activeVehicle.fuelType]}
-        <ChevronDownIcon size={15} className="text-muted" aria-hidden="true" />
+        <span className="min-w-0 truncate">
+          {activeVehicle.name} · {FUEL_TYPE_LABELS[activeVehicle.fuelType]}
+        </span>
+        <ChevronDownIcon size={15} className="shrink-0 text-muted" aria-hidden="true" />
       </button>
 
       {open &&

@@ -91,8 +91,7 @@ export function MobileInstallGate() {
 
       {inApp && (
         <div className="mt-5 rounded-2xl border border-warn/30 bg-warn/10 p-4 text-xs leading-relaxed text-soft">
-          You are viewing this page inside another app. To install Veylora, open{' '}
-          <span className="font-semibold">vvsrinath.github.io/Veylora</span> in{' '}
+          You are viewing this page inside another app. To install Veylora, open this page in{' '}
           <span className="font-semibold">{ios ? 'Safari' : 'Chrome'}</span> first.
         </div>
       )}

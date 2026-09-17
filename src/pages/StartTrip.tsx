@@ -40,7 +40,7 @@ export function StartTrip() {
   return (
     <AppShell>
       <div className="mx-auto max-w-lg px-6 py-8 md:py-10">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h1 className="text-xl font-bold text-soft">Start Your Trip</h1>
             <p className="mt-0.5 text-sm text-muted">{activeVehicle.name}</p>

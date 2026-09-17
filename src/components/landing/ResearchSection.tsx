@@ -363,18 +363,18 @@ export function ResearchSection() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-          <FadeIn>
+          <FadeIn className="min-w-0">
             <div className="h-full rounded-3xl border border-white/10 bg-navydark/60 p-6 md:p-8">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">Sample data</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted">
                 Illustrative speed and fuel-consumption values used to fit the model.
               </p>
-              <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
-                <table className="w-full text-left text-sm">
+              <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
+                <table className="w-full min-w-[320px] text-left text-sm">
                   <thead className="bg-white/5 text-xs uppercase tracking-wider text-muted">
                     <tr>
-                      <th className="px-4 py-2.5 font-medium">Speed (km/h)</th>
-                      <th className="px-4 py-2.5 font-medium">Fuel consumption</th>
+                      <th className="whitespace-nowrap px-4 py-2.5 font-medium">Speed (km/h)</th>
+                      <th className="whitespace-nowrap px-4 py-2.5 font-medium">Fuel consumption</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
@@ -393,7 +393,7 @@ export function ResearchSection() {
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.1}>
+          <FadeIn delay={0.1} className="min-w-0">
             <CodeViewer />
           </FadeIn>
         </div>
