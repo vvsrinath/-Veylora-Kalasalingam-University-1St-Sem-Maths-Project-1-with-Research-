@@ -15,7 +15,7 @@ export function SiteFooter() {
               using a simplified calculus-based model that improves as your data grows.
             </p>
             <p className="mt-4 text-xs text-muted">
-              Created &amp; developed by <span className="font-medium text-soft">Srinath V.V</span>.
+              Created &amp; developed by <span className="font-medium text-soft">Srinath Vatchavari Venkateshan</span>.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <a href="mailto:vvsrinath0@gmail.com" className="text-sm text-soft/90 hover:text-accent">

@@ -475,9 +475,9 @@ Veylora is an **educational estimation tool**, not a guarantee of savings.
 
 ## Developer
 
-<img src="public/developer.png" alt="Srinath V.V, creator and developer of Veylora" width="200" align="right" />
+<img src="public/developer.png" alt="Srinath Vatchavari Venkateshan, creator and developer of Veylora" width="200" align="right" />
 
-Veylora is developed by **Srinath V.V**, a student and technology enthusiast interested in automobile engineering, mathematics, software development, data analysis, and optimization.
+Veylora is developed by **Srinath Vatchavari Venkateshan**, a student and technology enthusiast interested in automobile engineering, mathematics, software development, data analysis, and optimization.
 
 The developer’s goal is to combine mathematical concepts with practical automobile applications. The project focuses on using differentiation and optimization techniques to understand fuel consumption and identify efficient driving speeds.
 
@@ -489,7 +489,7 @@ Through Veylora, the developer aims to transform a classroom mathematical concep
 
 - **Email:** [vvsrinath0@gmail.com](mailto:vvsrinath0@gmail.com)
 - **GitHub:** [@vvsrinath](https://github.com/vvsrinath)
-- **LinkedIn:** [Srinath V. V.](https://www.linkedin.com/in/srinath-v-a26b372b7)
+- **LinkedIn:** [Srinath Vatchavari Venkateshan](https://www.linkedin.com/in/srinath-v-a26b372b7)
 
 ---
 

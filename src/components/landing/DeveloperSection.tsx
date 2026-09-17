@@ -9,7 +9,7 @@ const CONTACT_LINKS = [
 
 
 const BIO = [
-"Veylora is developed by Srinath V.V, a student and technology enthusiast interested in automobile engineering, mathematics, software development, data analysis, and optimization.",
+"Veylora is developed by Srinath Vatchavari Venkateshan, a student and technology enthusiast interested in automobile engineering, mathematics, software development, data analysis, and optimization.",
 "The developer\u2019s goal is to combine mathematical concepts with practical automobile applications \u2014 using differentiation and optimization techniques to understand fuel consumption and identify efficient driving speeds.",
 "Future improvements include personalized vehicle modelling, environmental and road-condition analysis, driving-behaviour analysis, data visualization, and offline-first web application development.",
 "Through Veylora, the developer aims to transform a classroom mathematical concept into a practical research-oriented software project that connects calculus, automobile engineering, and modern technology."];
@@ -25,7 +25,7 @@ export function DeveloperSection() {
               <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5">
                 <img
                   src="/developer.png"
-                  alt="Srinath V.V, creator and developer of Veylora"
+                  alt="Srinath Vatchavari Venkateshan, creator and developer of Veylora"
                   width={280}
                   height={280}
                   loading="lazy"
@@ -33,7 +33,7 @@ export function DeveloperSection() {
                 
               </div>
               <div className="mt-4 text-center">
-                <p className="text-base font-semibold text-soft">Srinath V.V</p>
+                <p className="text-base font-semibold text-soft">Srinath Vatchavari Venkateshan</p>
                 <p className="text-sm text-accent">Creator &amp; Developer</p>
               </div>
             </div>
